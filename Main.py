@@ -1,14 +1,12 @@
+
 from threading import Thread
 import ctypes
-import time
 import tkinter as tk
 from tkinter import filedialog
 from tkinter.colorchooser import askcolor
 from ctypes import WINFUNCTYPE, c_bool, c_void_p, c_int, c_long, POINTER
 
-
 WNDENUMPROC = WINFUNCTYPE(c_bool, c_void_p, c_long)
-
 
 class WindowCustomizer:
     def __init__(self):
@@ -69,95 +67,60 @@ class WindowCustomizer:
         stop_button.grid(row=5, column=1)
 
     def pick_titlebar_color(self):
-        color = askcolor()[0]
-        self.titlebar_color_var.set(','.join(map(str, color)))
+        color = askcolor()[1]
+        self.titlebar_color_var.set(color)
 
     def pick_text_color(self):
-        color = askcolor()[0]
-        self.text_color_var.set(','.join(map(str, color)))
+        color = askcolor()[1]
+        self.text_color_var.set(color)
 
     def upload_skin_texture(self):
         file_path = filedialog.askopenfilename()
         self.skin_texture_path = file_path
 
+    def rgb_to_int(self, rgb):
+        return rgb[0] | (rgb[1] << 8) | (rgb[2] << 16)
+
     def set_window_colors(self, window_handle, titlebar_color, text_color):
-        user32 = ctypes.windll.user32
-        user32.SetSysColors(1, ctypes.byref(ctypes.c_int(1)), ctypes.byref(ctypes.c_ulong(titlebar_color)))
+        # This function is a placeholder. The actual implementation will depend on the specific method used to customize the window.
+        pass
 
-    def set_window_close_button(self, window_handle, close_button_unicode):
-        close_button_unicode = int(close_button_unicode, 16)
-        user32 = ctypes.windll.user32
-        dw_style = user32.GetWindowLongW(window_handle, ctypes.c_int(-16))
-        dw_style = dw_style | 0x00080000  # WS_CAPTION (0x00C00000) + WS_SYSMENU (0x00080000)
-        user32.SetWindowLongW(window_handle, ctypes.c_int(-16), dw_style)
-        user32.DrawMenuBar(window_handle)
+    def set_window_title(self, window_handle, title):
+        # This function is a placeholder. The actual implementation will depend on the specific method used to customize the window.
+        pass
 
-    def set_window_transparent(self, window_handle):
-        user32 = ctypes.windll.user32
-        user32.SetWindowLongW(window_handle, -20, 524288 | 32)
-        user32.SetLayeredWindowAttributes(window_handle, 0, 255, 2)
+    def set_close_button_unicode(self, window_handle, unicode):
+        # This function is a placeholder. The actual implementation will depend on the specific method used to customize the window.
+        pass
 
-    def set_window_fullscreen(self, window_handle):
-        user32 = ctypes.windll.user32
-        user32.ShowWindow(window_handle, 3)
-
-    def set_window_title_font(self, window_handle, font_name, font_size):
-        gdi32 = ctypes.windll.gdi32
-        user32 = ctypes.windll.user32
-        h_font = gdi32.CreateFontW(-int(font_size), 0, 0, 0, 700, False, False, False, 0, 0, 0, 0, 0, font_name)
-        user32.SendMessageW(window_handle, 48, h_font, True)
-
-    def set_window_skin_texture(self, window_handle, skin_texture_path):
-        user32 = ctypes.windll.user32
-        user32.SetWindowTheme(window_handle, "", "")
-
-        # Load the skin texture
-        if skin_texture_path:
-            user32.SetWindowTheme(window_handle, skin_texture_path, "")
-
-    def modify_window(self, window_handle):
-        titlebar_color = self.get_titlebar_color()
-        text_color = self.get_text_color()
-        window_title = self.window_title_var.get()
-        close_button_unicode = self.close_button_unicode_var.get()
-        skin_texture_path = self.skin_texture_path
-
-        self.set_window_colors(window_handle, titlebar_color, text_color)
-        self.set_window_close_button(window_handle, close_button_unicode)
-        self.set_window_title_font(window_handle, "Arial", 16)
-
-        if skin_texture_path:
-            self.set_window_skin_texture(window_handle, skin_texture_path)
-
-        user32 = ctypes.windll.user32
-        user32.RedrawWindow(window_handle, None, None, 0x0401)
-
-    def modify_all_windows(self):
-        def enum_windows_callback(window_handle, _):
-            self.modify_window(window_handle)
-            return True
-
-        user32 = ctypes.windll.user32
-        user32.EnumWindows(WNDENUMPROC(enum_windows_callback), 0)
+    def set_skin_texture(self, window_handle, texture_path):
+        # This function is a placeholder. The actual implementation will depend on the specific method used to customize the window.
+        pass
 
     def apply_changes(self):
         if self.running:
             return
 
         self.running = True
-        thread = Thread(target=self.modify_all_windows)
-        thread.start()
+        Thread(target=self.run_customizer).start()
+
+    def run_customizer(self):
+        while self.running:
+            # Enumerate all windows and apply the changes
+            ctypes.windll.user32.EnumWindows(WNDENUMPROC(self.enum_windows_proc), 0)
+
+    def enum_windows_proc(self, hwnd, lparam):
+        # Apply the changes to each window
+        self.set_window_colors(hwnd, self.titlebar_color_var.get(), self.text_color_var.get())
+        self.set_window_title(hwnd, self.window_title_var.get())
+        self.set_close_button_unicode(hwnd, self.close_button_unicode_var.get())
+        self.set_skin_texture(hwnd, self.skin_texture_path)
+        return True
 
     def stop_customizer(self):
         self.running = False
 
-    def get_titlebar_color(self):
-        return tuple(map(int, self.titlebar_color_var.get().split(',')))
-
-    def get_text_color(self):
-        return tuple(map(int, self.text_color_var.get().split(',')))
-
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     customizer = WindowCustomizer()
     customizer.root.mainloop()
+

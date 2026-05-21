@@ -21,9 +21,12 @@ APP_NAME = "OpenSkin Lab"
 IS_WINDOWS = os.name == "nt"
 APP_DIR = Path(__file__).resolve().parent
 PROFILE_PATH = APP_DIR / "openskin_profiles.json"
+TARGET_RULES_PATH = APP_DIR / "openskin_targets.json"
 PROFILE_EXPORT_VERSION = 2
 MIN_TEXT_CONTRAST = 4.5
 BROAD_TARGET_LIMIT = 8
+MAX_UNDO_STACK = 10
+MAX_RECENT_APPLIES = 25
 PROCESS_QUERY_LIMITED_INFORMATION = 0x1000
 DWMWA_CLOAKED = 14
 GWL_EXSTYLE = -20
@@ -498,6 +501,180 @@ VIDEO_LIBRARY.extend(
     ]
 )
 
+RESEARCH_LINKS.extend(
+    [
+        {
+            "title": "User Interface Privilege Isolation",
+            "url": "https://learn.microsoft.com/en-us/windows/win32/winauto/uiauto-securityoverview",
+            "note": "Explains why some elevated/protected windows cannot be controlled by normal desktop apps.",
+        },
+        {
+            "title": "Window messages",
+            "url": "https://learn.microsoft.com/en-us/windows/win32/winmsg/window-messages",
+            "note": "Background for Win32 message safety and window interaction boundaries.",
+        },
+        {
+            "title": "SetWindowDisplayAffinity",
+            "url": "https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-setwindowdisplayaffinity",
+            "note": "Privacy-related window display behavior for future target diagnostics.",
+        },
+        {
+            "title": "UI Automation entry point",
+            "url": "https://learn.microsoft.com/en-us/windows/win32/winauto/entry-uiauto-win32",
+            "note": "Microsoft entry point for UI Automation concepts.",
+        },
+        {
+            "title": "UI Automation control patterns",
+            "url": "https://learn.microsoft.com/en-us/windows/win32/winauto/uiauto-controlpatternsoverview",
+            "note": "Future path for target capability inspection.",
+        },
+        {
+            "title": "ARIA Authoring Practices",
+            "url": "https://www.w3.org/WAI/ARIA/apg/",
+            "note": "Interaction-pattern guidance useful for accessibility-minded UI design.",
+        },
+        {
+            "title": "Migrate to Windows App SDK",
+            "url": "https://learn.microsoft.com/en-us/windows/apps/windows-app-sdk/migrate-to-windows-app-sdk/",
+            "note": "Migration guide for a future native Windows version.",
+        },
+        {
+            "title": "Windows App SDK lifecycle",
+            "url": "https://learn.microsoft.com/en-us/windows/apps/windows-app-sdk/applifecycle/applifecycle",
+            "note": "Lifecycle model for a more native OpenSkin app.",
+        },
+        {
+            "title": "Windows App SDK windowing",
+            "url": "https://learn.microsoft.com/en-us/windows/apps/windows-app-sdk/windowing/windowing-overview",
+            "note": "Modern app windowing and titlebar APIs.",
+        },
+        {
+            "title": "Windows Community Toolkit",
+            "url": "https://learn.microsoft.com/en-us/windows/communitytoolkit/",
+            "note": "Reusable Windows UI helpers for a future rewrite.",
+        },
+        {
+            "title": "PyPI trusted publishing",
+            "url": "https://docs.pypi.org/trusted-publishers/",
+            "note": "Supply-chain guidance for publishing Python packages.",
+        },
+        {
+            "title": "PyPI digital attestations",
+            "url": "https://docs.pypi.org/attestations/",
+            "note": "Emerging Python package provenance guidance.",
+        },
+        {
+            "title": "pip-audit",
+            "url": "https://pypi.org/project/pip-audit/",
+            "note": "Python dependency vulnerability scanning.",
+        },
+        {
+            "title": "Microsoft SignTool",
+            "url": "https://learn.microsoft.com/en-us/windows/win32/seccrypto/signtool",
+            "note": "Authenticode signing tool for Windows desktop distribution.",
+        },
+        {
+            "title": "CSS Color 4",
+            "url": "https://www.w3.org/TR/css-color-4/",
+            "note": "Modern color spaces and color syntax reference.",
+        },
+        {
+            "title": "Design Tokens Community Group",
+            "url": "https://www.w3.org/community/design-tokens/",
+            "note": "Standards track behind portable theme token formats.",
+        },
+        {
+            "title": "Design Tokens format draft",
+            "url": "https://tr.designtokens.org/format/",
+            "note": "Future export target for OpenSkin profiles.",
+        },
+        {
+            "title": "Material 3 color",
+            "url": "https://m3.material.io/styles/color/overview",
+            "note": "Modern color-system comparison point for palette generation.",
+        },
+        {
+            "title": "NN/g A/B testing",
+            "url": "https://www.nngroup.com/articles/ab-testing/",
+            "note": "Experimentation guidance for comparing generated themes.",
+        },
+        {
+            "title": "Microsoft ExP Platform",
+            "url": "https://www.microsoft.com/en-us/research/group/experimentation-platform-exp/",
+            "note": "Research reference for controlled product experiments.",
+        },
+    ]
+)
+
+VIDEO_LIBRARY.extend(
+    [
+        ("Window Safety", "Windows UI Automation security overview Microsoft", "https://www.youtube.com/results?search_query=Windows+UI+Automation+security+overview+Microsoft", "Privilege boundaries and automation limits."),
+        ("Window Safety", "Windows UIPI explained UIAccess desktop apps", "https://www.youtube.com/results?search_query=Windows+UIPI+explained+UIAccess+desktop+apps", "Why some target operations are blocked."),
+        ("Window Safety", "Win32 window handle safety GetWindowThreadProcessId", "https://www.youtube.com/results?search_query=Win32+window+handle+safety+GetWindowThreadProcessId", "Safer target identity checks."),
+        ("Window Safety", "Windows target window validation HWND process integrity", "https://www.youtube.com/results?search_query=Windows+target+window+validation+HWND+process+integrity", "Avoid stale or privileged targets."),
+        ("Window Safety", "SetWindowDisplayAffinity Windows privacy overlay capture protection", "https://www.youtube.com/results?search_query=SetWindowDisplayAffinity+Windows+privacy+overlay+capture+protection", "Privacy-aware window behavior."),
+        ("Window Safety", "Win32 window messages security risks", "https://www.youtube.com/results?search_query=Win32+window+messages+security+risks", "Security model behind window messaging."),
+        ("Window Safety", "Windows low integrity medium integrity high integrity UI automation", "https://www.youtube.com/results?search_query=Windows+low+integrity+medium+integrity+high+integrity+UI+automation", "Integrity levels and UI access."),
+        ("Window Safety", "Secure desktop Windows UAC UI automation limitations", "https://www.youtube.com/results?search_query=Secure+desktop+Windows+UAC+UI+automation+limitations", "Why secure desktop cannot be styled."),
+        ("UI Automation", "UI Automation provider client patterns Windows", "https://www.youtube.com/results?search_query=UI+Automation+provider+client+patterns+Windows", "Provider/client mental model."),
+        ("UI Automation", "UI Automation tree walker control view raw view", "https://www.youtube.com/results?search_query=UI+Automation+tree+walker+control+view+raw+view", "Tree views and inspection modes."),
+        ("UI Automation", "UI Automation control patterns invoke value selection", "https://www.youtube.com/results?search_query=UI+Automation+control+patterns+invoke+value+selection", "Capability-level target inspection."),
+        ("UI Automation", "Accessibility Insights for Windows FastPass tutorial", "https://www.youtube.com/results?search_query=Accessibility+Insights+for+Windows+FastPass+tutorial", "Quick accessibility checks."),
+        ("UI Automation", "Accessibility Insights for Windows event monitoring", "https://www.youtube.com/results?search_query=Accessibility+Insights+for+Windows+event+monitoring", "Event/debugging workflows."),
+        ("UI Automation", "Inspect.exe Windows SDK UI Automation tutorial", "https://www.youtube.com/results?search_query=Inspect.exe+Windows+SDK+UI+Automation+tutorial", "Inspect tool workflow."),
+        ("UI Automation", "AccEvent Windows accessibility testing tutorial", "https://www.youtube.com/results?search_query=AccEvent+Windows+accessibility+testing+tutorial", "Event validation."),
+        ("UI Automation", "Windows screen reader testing Narrator developer workflow", "https://www.youtube.com/results?search_query=Windows+screen+reader+testing+Narrator+developer+workflow", "Narrator testing habits."),
+        ("UI Automation", "WCAG 2.2 desktop app accessibility testing", "https://www.youtube.com/results?search_query=WCAG+2.2+desktop+app+accessibility+testing", "Applying web guidance to desktop UI."),
+        ("UI Automation", "ARIA Authoring Practices practical accessibility testing", "https://www.youtube.com/results?search_query=ARIA+Authoring+Practices+practical+accessibility+testing", "Interaction pattern testing."),
+        ("UI Automation", "Keyboard accessibility testing Windows desktop apps", "https://www.youtube.com/results?search_query=Keyboard+accessibility+testing+Windows+desktop+apps", "Keyboard-first validation."),
+        ("UI Automation", "High contrast mode Windows app testing", "https://www.youtube.com/results?search_query=High+contrast+mode+Windows+app+testing", "Contrast theme checks."),
+        ("WinUI Roadmap", "WinUI 3 accessibility best practices", "https://www.youtube.com/results?search_query=WinUI+3+accessibility+best+practices", "Native accessibility patterns."),
+        ("WinUI Roadmap", "WinUI 3 migration from WPF", "https://www.youtube.com/results?search_query=WinUI+3+migration+from+WPF", "Migration comparison."),
+        ("WinUI Roadmap", "WinUI 3 migration from UWP", "https://www.youtube.com/results?search_query=WinUI+3+migration+from+UWP", "Windows App SDK migration."),
+        ("WinUI Roadmap", "Windows App SDK migration guide", "https://www.youtube.com/results?search_query=Windows+App+SDK+migration+guide", "Future platform path."),
+        ("WinUI Roadmap", "Windows App SDK windowing tutorial", "https://www.youtube.com/results?search_query=Windows+App+SDK+windowing+tutorial", "Modern window APIs."),
+        ("WinUI Roadmap", "Windows App SDK app lifecycle tutorial", "https://www.youtube.com/results?search_query=Windows+App+SDK+app+lifecycle+tutorial", "Lifecycle and activation."),
+        ("WinUI Roadmap", "WinUI 3 packaging MSIX unpackaged comparison", "https://www.youtube.com/results?search_query=WinUI+3+packaging+MSIX+unpackaged+comparison", "Distribution choices."),
+        ("WinUI Roadmap", "WinUI 3 desktop app deployment", "https://www.youtube.com/results?search_query=WinUI+3+desktop+app+deployment", "Deployment planning."),
+        ("WinUI Roadmap", "Windows Community Toolkit WinUI 3 examples", "https://www.youtube.com/results?search_query=Windows+Community+Toolkit+WinUI+3+examples", "Reusable Windows components."),
+        ("Fluent Design", "Fluent 2 design system Windows apps", "https://www.youtube.com/results?search_query=Fluent+2+design+system+Windows+apps", "Current Microsoft design system."),
+        ("Packaging Security", "Python packaging trusted publishing PyPI", "https://www.youtube.com/results?search_query=Python+packaging+trusted+publishing+PyPI", "Modern publish security."),
+        ("Packaging Security", "PyPI digital attestations Python packages", "https://www.youtube.com/results?search_query=PyPI+digital+attestations+Python+packages", "Package provenance."),
+        ("Packaging Security", "pip audit Python dependency security", "https://www.youtube.com/results?search_query=pip+audit+Python+dependency+security", "Dependency scanning."),
+        ("Packaging Security", "Python wheel signing and supply chain security", "https://www.youtube.com/results?search_query=Python+wheel+signing+and+supply+chain+security", "Distribution trust."),
+        ("Packaging Security", "Python packaging pyproject.toml best practices", "https://www.youtube.com/results?search_query=Python+packaging+pyproject.toml+best+practices", "Project packaging hygiene."),
+        ("Packaging Security", "PyInstaller antivirus false positive mitigation", "https://www.youtube.com/results?search_query=PyInstaller+antivirus+false+positive+mitigation", "Common Windows packaging issue."),
+        ("Packaging Security", "PyInstaller hidden imports hooks tutorial", "https://www.youtube.com/results?search_query=PyInstaller+hidden+imports+hooks+tutorial", "Robust executable builds."),
+        ("Packaging Security", "Nuitka onefile vs standalone Windows", "https://www.youtube.com/results?search_query=Nuitka+onefile+vs+standalone+Windows", "Packaging tradeoff."),
+        ("Packaging Security", "Nuitka code signing Windows app distribution", "https://www.youtube.com/results?search_query=Nuitka+code+signing+Windows+app+distribution", "Signed native builds."),
+        ("Packaging Security", "Microsoft SignTool code signing certificate tutorial", "https://www.youtube.com/results?search_query=Microsoft+SignTool+code+signing+certificate+tutorial", "Authenticode workflow."),
+        ("Packaging Security", "Windows SmartScreen code signing reputation explained", "https://www.youtube.com/results?search_query=Windows+SmartScreen+code+signing+reputation+explained", "Distribution trust model."),
+        ("Packaging Security", "MSIX packaging and code signing desktop apps", "https://www.youtube.com/results?search_query=MSIX+packaging+and+code+signing+desktop+apps", "MSIX path."),
+        ("Design Tokens", "CSS Color 4 OKLCH explained", "https://www.youtube.com/results?search_query=CSS+Color+4+OKLCH+explained", "Modern perceptual color."),
+        ("Design Tokens", "OKLab OKLCH color spaces design systems", "https://www.youtube.com/results?search_query=OKLab+OKLCH+color+spaces+design+systems", "Future palette accuracy."),
+        ("Design Tokens", "APCA contrast explained WCAG 3", "https://www.youtube.com/results?search_query=APCA+contrast+explained+WCAG+3", "Emerging contrast model."),
+        ("Design Tokens", "WCAG 2.2 contrast non text contrast examples", "https://www.youtube.com/results?search_query=WCAG+2.2+contrast+non+text+contrast+examples", "UI boundaries and controls."),
+        ("Design Tokens", "Material 3 dynamic color HCT explained", "https://www.youtube.com/results?search_query=Material+3+dynamic+color+HCT+explained", "Modern dynamic color systems."),
+        ("Design Tokens", "Material color utilities tutorial", "https://www.youtube.com/results?search_query=Material+color+utilities+tutorial", "Reference implementation ideas."),
+        ("Design Tokens", "Fluent 2 color tokens tutorial", "https://www.youtube.com/results?search_query=Fluent+2+color+tokens+tutorial", "Microsoft token model."),
+        ("Design Tokens", "Design tokens W3C format tutorial", "https://www.youtube.com/results?search_query=Design+tokens+W3C+format+tutorial", "Portable theme exports."),
+        ("Design Tokens", "Style Dictionary design tokens pipeline", "https://www.youtube.com/results?search_query=Style+Dictionary+design+tokens+pipeline", "Token build pipelines."),
+        ("Design Tokens", "Design tokens Figma to code workflow", "https://www.youtube.com/results?search_query=Design+tokens+Figma+to+code+workflow", "Design-to-code workflow."),
+        ("Design Tokens", "Dark mode tokens accessibility contrast", "https://www.youtube.com/results?search_query=Dark+mode+tokens+accessibility+contrast", "Dark palette quality."),
+        ("UX Experimentation", "UX A/B testing Nielsen Norman Group", "https://www.youtube.com/results?search_query=UX+A%2FB+testing+Nielsen+Norman+Group", "Theme comparison methodology."),
+        ("UX Experimentation", "UX experimentation platform Microsoft ExP", "https://www.youtube.com/results?search_query=UX+experimentation+platform+Microsoft+ExP", "Controlled experimentation."),
+        ("UX Experimentation", "Controlled experiments product design", "https://www.youtube.com/results?search_query=Controlled+experiments+product+design", "Evidence-backed product changes."),
+        ("UX Experimentation", "Quantitative UX research metrics tutorial", "https://www.youtube.com/results?search_query=Quantitative+UX+research+metrics+tutorial", "Measure theme performance."),
+        ("UX Experimentation", "Task success rate UX testing", "https://www.youtube.com/results?search_query=Task+success+rate+UX+testing", "Workflow metrics."),
+        ("UX Experimentation", "SUS score usability testing tutorial", "https://www.youtube.com/results?search_query=SUS+score+usability+testing+tutorial", "Usability questionnaire."),
+        ("UX Experimentation", "Preference testing vs usability testing", "https://www.youtube.com/results?search_query=Preference+testing+vs+usability+testing", "Avoid shallow preference-only decisions."),
+        ("UX Experimentation", "First click testing UX research", "https://www.youtube.com/results?search_query=First+click+testing+UX+research", "Navigation evaluation."),
+        ("UX Experimentation", "Tree testing information architecture UX", "https://www.youtube.com/results?search_query=Tree+testing+information+architecture+UX", "Resource-library structure testing."),
+        ("UX Experimentation", "Feature flag experiments desktop software", "https://www.youtube.com/results?search_query=Feature+flag+experiments+desktop+software", "Experiment rollout patterns."),
+        ("UX Experimentation", "Telemetry privacy UX experimentation desktop apps", "https://www.youtube.com/results?search_query=Telemetry+privacy+UX+experimentation+desktop+apps", "Privacy-conscious measurement."),
+    ]
+)
+
 
 @dataclass
 class WindowInfo:
@@ -590,6 +767,9 @@ class OpenSkinLab:
         self.user_profile_names = set()
         self.visible_windows = []
         self.experiment_variants = []
+        self.favorite_rules = []
+        self.recent_applies = []
+        self.undo_stack = []
         self.live_job_id = None
         self.preview_update_job = None
         self.undo_snapshot = []
@@ -613,15 +793,18 @@ class OpenSkinLab:
         self.contrast_var = tk.StringVar()
         self.video_search_var = tk.StringVar()
         self.video_category_var = tk.StringVar(value="All")
+        self.research_search_var = tk.StringVar()
         self.enforce_contrast_var = tk.BooleanVar(value=True)
         self.auto_fix_contrast_var = tk.BooleanVar(value=True)
         self.confirm_broad_apply_var = tk.BooleanVar(value=True)
 
         self.load_profiles()
+        self.load_target_data()
         self.create_gui()
         self.apply_profile("Research blue")
         self.refresh_windows()
         self.refresh_video_list()
+        self.refresh_research_list()
         self.update_preview()
 
     def create_gui(self):
@@ -665,6 +848,7 @@ class OpenSkinLab:
             variable.trace_add("write", lambda *_: self.schedule_preview_update())
         self.video_search_var.trace_add("write", lambda *_: self.refresh_video_list())
         self.video_category_var.trace_add("write", lambda *_: self.refresh_video_list())
+        self.research_search_var.trace_add("write", lambda *_: self.refresh_research_list())
         self.target_search_var.trace_add("write", lambda *_: self.refresh_target_tree())
 
         self.root.bind("<Control-r>", lambda _event: self.refresh_windows())
@@ -884,7 +1068,7 @@ class OpenSkinLab:
 
         scope = ttk.LabelFrame(self.targets_tab, text="Apply Scope", padding=10)
         scope.grid(row=0, column=0, sticky="ew", pady=(0, 10))
-        for column in range(4):
+        for column in range(5):
             scope.columnconfigure(column, weight=1)
 
         ttk.Radiobutton(scope, text="Selected windows", variable=self.target_mode_var, value="selected").grid(
@@ -899,9 +1083,12 @@ class OpenSkinLab:
         ttk.Radiobutton(scope, text="All visible windows", variable=self.target_mode_var, value="all_visible").grid(
             row=0, column=3, sticky="w"
         )
+        ttk.Radiobutton(scope, text="Favorite rules", variable=self.target_mode_var, value="favorites").grid(
+            row=0, column=4, sticky="w"
+        )
         ttk.Label(scope, text="Title filter").grid(row=1, column=0, sticky="w", pady=(8, 0))
         ttk.Entry(scope, textvariable=self.title_filter_var).grid(
-            row=1, column=1, columnspan=3, sticky="ew", pady=(8, 0)
+            row=1, column=1, columnspan=4, sticky="ew", pady=(8, 0)
         )
 
         list_frame = ttk.LabelFrame(self.targets_tab, text="Visible Windows", padding=10)
@@ -952,6 +1139,53 @@ class OpenSkinLab:
         ttk.Button(target_actions, text="Copy target info", command=self.copy_selected_target_info).grid(
             row=0, column=3, sticky="ew", padx=(4, 0)
         )
+        ttk.Button(target_actions, text="Favorite selected", command=self.favorite_selected_targets).grid(
+            row=1, column=0, sticky="ew", padx=(0, 4), pady=(8, 0)
+        )
+        ttk.Button(target_actions, text="Remove favorite", command=self.remove_selected_favorites).grid(
+            row=1, column=1, sticky="ew", padx=4, pady=(8, 0)
+        )
+        ttk.Button(target_actions, text="Apply favorites", command=self.apply_favorites).grid(
+            row=1, column=2, sticky="ew", padx=4, pady=(8, 0)
+        )
+        ttk.Button(target_actions, text="Undo history", command=self.show_undo_history).grid(
+            row=1, column=3, sticky="ew", padx=(4, 0), pady=(8, 0)
+        )
+
+        history_frame = ttk.LabelFrame(list_frame, text="Favorite Rules and Recent Applies", padding=8)
+        history_frame.grid(row=3, column=0, columnspan=2, sticky="ew", pady=(10, 0))
+        history_frame.columnconfigure(0, weight=1)
+        history_frame.columnconfigure(1, weight=1)
+
+        self.favorite_tree = ttk.Treeview(
+            history_frame,
+            columns=("process", "class", "title"),
+            show="headings",
+            height=4,
+            selectmode="extended",
+        )
+        for column, heading, width in (("process", "Process", 140), ("class", "Class", 140), ("title", "Title contains", 240)):
+            self.favorite_tree.heading(column, text=heading)
+            self.favorite_tree.column(column, width=width, stretch=column == "title")
+        self.favorite_tree.grid(row=0, column=0, sticky="ew", padx=(0, 6))
+
+        self.recent_tree = ttk.Treeview(
+            history_frame,
+            columns=("time", "profile", "result", "targets"),
+            show="headings",
+            height=4,
+        )
+        for column, heading, width in (
+            ("time", "Time", 90),
+            ("profile", "Profile", 140),
+            ("result", "Result", 90),
+            ("targets", "Targets", 260),
+        ):
+            self.recent_tree.heading(column, text=heading)
+            self.recent_tree.column(column, width=width, stretch=column == "targets")
+        self.recent_tree.grid(row=0, column=1, sticky="ew", padx=(6, 0))
+        self.refresh_favorite_tree()
+        self.refresh_recent_tree()
 
     def create_videos_tab(self):
         self.videos_tab.columnconfigure(0, weight=1)
@@ -1003,7 +1237,16 @@ class OpenSkinLab:
 
     def create_research_tab(self):
         self.research_tab.columnconfigure(0, weight=1)
-        self.research_tab.rowconfigure(0, weight=1)
+        self.research_tab.rowconfigure(1, weight=1)
+
+        filters = ttk.Frame(self.research_tab)
+        filters.grid(row=0, column=0, sticky="ew", pady=(0, 10))
+        filters.columnconfigure(1, weight=1)
+        ttk.Label(filters, text="Search").grid(row=0, column=0, sticky="w")
+        ttk.Entry(filters, textvariable=self.research_search_var).grid(row=0, column=1, sticky="ew", padx=8)
+        ttk.Button(filters, text="Copy selected link", command=self.copy_selected_research_link).grid(
+            row=0, column=2, sticky="e"
+        )
 
         self.research_tree = ttk.Treeview(
             self.research_tab,
@@ -1017,14 +1260,15 @@ class OpenSkinLab:
         self.research_tree.column("title", width=220, stretch=False)
         self.research_tree.column("note", width=420, stretch=True)
         self.research_tree.column("url", width=360, stretch=True)
-        self.research_tree.grid(row=0, column=0, sticky="nsew")
+        self.research_tree.grid(row=1, column=0, sticky="nsew")
         self.research_tree.bind("<Double-1>", lambda _event: self.open_selected_research())
 
-        for index, item in enumerate(RESEARCH_LINKS):
-            self.research_tree.insert("", "end", iid=str(index), values=(item["title"], item["note"], item["url"]))
+        research_scroll = ttk.Scrollbar(self.research_tab, orient="vertical", command=self.research_tree.yview)
+        research_scroll.grid(row=1, column=1, sticky="ns")
+        self.research_tree.configure(yscrollcommand=research_scroll.set)
 
         notes = ttk.LabelFrame(self.research_tab, text="Implementation Notes", padding=10)
-        notes.grid(row=1, column=0, sticky="ew", pady=(10, 0))
+        notes.grid(row=2, column=0, sticky="ew", pady=(10, 0))
         text = (
             "OpenSkin now uses documented Windows DWM attributes for safe frame-level skinning. "
             "Close-button glyph replacement and arbitrary texture injection are intentionally kept as previews "
@@ -1315,6 +1559,47 @@ class OpenSkinLab:
             if name in self.profiles
         }
         PROFILE_PATH.write_text(json.dumps(user_profiles, indent=2), encoding="utf-8")
+
+    def load_target_data(self):
+        if not TARGET_RULES_PATH.exists():
+            return
+        try:
+            payload = json.loads(TARGET_RULES_PATH.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError) as exc:
+            self.log(f"Could not load target state: {exc}")
+            return
+        if not isinstance(payload, dict):
+            return
+        favorites = payload.get("favorites", [])
+        recents = payload.get("recents", [])
+        if isinstance(favorites, list):
+            self.favorite_rules = [rule for rule in (self.sanitize_target_rule(item) for item in favorites) if rule]
+        if isinstance(recents, list):
+            self.recent_applies = [item for item in recents if isinstance(item, dict)][:MAX_RECENT_APPLIES]
+
+    def persist_target_data(self):
+        payload = {
+            "version": 1,
+            "favorites": self.favorite_rules,
+            "recents": self.recent_applies[:MAX_RECENT_APPLIES],
+        }
+        TARGET_RULES_PATH.write_text(json.dumps(payload, indent=2), encoding="utf-8")
+
+    def sanitize_target_rule(self, rule):
+        if not isinstance(rule, dict):
+            return None
+        process = str(rule.get("process", "")).strip()
+        class_name = str(rule.get("class_name", "")).strip()
+        title_contains = str(rule.get("title_contains", "")).strip()
+        path = str(rule.get("path", "")).strip()
+        if not any((process, class_name, title_contains, path)):
+            return None
+        return {
+            "process": process,
+            "class_name": class_name,
+            "title_contains": title_contains,
+            "path": path,
+        }
 
     def update_profile_values(self):
         self.profile_combo.configure(values=sorted(self.profiles))
@@ -1636,8 +1921,37 @@ class OpenSkinLab:
             ]
         if mode == "all_visible":
             return [item.hwnd for item in self.visible_windows if self.is_valid_target_hwnd(item.hwnd)]
+        if mode == "favorites":
+            return [item.hwnd for item in self.favorite_target_windows()]
 
         return [window.hwnd for window in self.selected_window_infos() if self.is_valid_target_hwnd(window.hwnd)]
+
+    def favorite_target_windows(self):
+        matches = []
+        seen = set()
+        for window in self.visible_windows:
+            if not self.is_valid_target_hwnd(window.hwnd):
+                continue
+            if any(self.window_matches_rule(window, rule) for rule in self.favorite_rules):
+                if window.hwnd not in seen:
+                    matches.append(window)
+                    seen.add(window.hwnd)
+        return matches
+
+    def window_matches_rule(self, window, rule):
+        process = rule.get("process", "").casefold()
+        class_name = rule.get("class_name", "").casefold()
+        title_contains = rule.get("title_contains", "").casefold()
+        path = rule.get("path", "").casefold()
+        if process and process != (window.process or "").casefold():
+            return False
+        if class_name and class_name != (window.class_name or "").casefold():
+            return False
+        if title_contains and title_contains not in (window.title or "").casefold():
+            return False
+        if path and path != (window.path or "").casefold():
+            return False
+        return True
 
     def selected_window_infos(self):
         if not hasattr(self, "target_tree"):
@@ -1686,6 +2000,79 @@ class OpenSkinLab:
         self.root.clipboard_clear()
         self.root.clipboard_append("\n".join(lines).strip())
         self.status_var.set(f"Copied {len(selected)} target record(s).")
+
+    def favorite_selected_targets(self):
+        selected = self.selected_window_infos()
+        if not selected:
+            messagebox.showinfo(APP_NAME, "Select at least one target window first.")
+            return
+        added = 0
+        for window in selected:
+            rule = {
+                "process": window.process,
+                "class_name": window.class_name,
+                "title_contains": compact_title_pattern(window.title),
+                "path": window.path,
+            }
+            if not any(target_rules_equal(rule, existing) for existing in self.favorite_rules):
+                self.favorite_rules.append(rule)
+                added += 1
+        self.persist_target_data()
+        self.refresh_favorite_tree()
+        self.status_var.set(f"Added {added} favorite target rule(s).")
+
+    def remove_selected_favorites(self):
+        if not hasattr(self, "favorite_tree"):
+            return
+        selected = sorted((int(iid) for iid in self.favorite_tree.selection()), reverse=True)
+        if not selected:
+            messagebox.showinfo(APP_NAME, "Select at least one favorite rule first.")
+            return
+        for index in selected:
+            if 0 <= index < len(self.favorite_rules):
+                del self.favorite_rules[index]
+        self.persist_target_data()
+        self.refresh_favorite_tree()
+        self.status_var.set(f"Removed {len(selected)} favorite rule(s).")
+
+    def apply_favorites(self):
+        self.target_mode_var.set("favorites")
+        self.apply_once()
+
+    def refresh_favorite_tree(self):
+        if not hasattr(self, "favorite_tree"):
+            return
+        for item in self.favorite_tree.get_children():
+            self.favorite_tree.delete(item)
+        for index, rule in enumerate(self.favorite_rules):
+            self.favorite_tree.insert(
+                "",
+                "end",
+                iid=str(index),
+                values=(
+                    rule.get("process", "") or "*",
+                    rule.get("class_name", "") or "*",
+                    rule.get("title_contains", "") or "*",
+                ),
+            )
+
+    def refresh_recent_tree(self):
+        if not hasattr(self, "recent_tree"):
+            return
+        for item in self.recent_tree.get_children():
+            self.recent_tree.delete(item)
+        for index, item in enumerate(self.recent_applies[:MAX_RECENT_APPLIES]):
+            self.recent_tree.insert(
+                "",
+                "end",
+                iid=str(index),
+                values=(
+                    item.get("time", ""),
+                    item.get("profile", ""),
+                    item.get("result", ""),
+                    item.get("targets", ""),
+                ),
+            )
 
     def preview_targets(self):
         if not IS_WINDOWS:
@@ -1756,6 +2143,7 @@ class OpenSkinLab:
                 self.log(f"Apply failed: {failure}")
         self.status_var.set(summary)
         self.log(summary)
+        self.record_recent_apply(targets, successes, failures)
 
     def prepare_settings_for_apply(self, settings):
         ratio = contrast_ratio(hex_to_rgb(settings["caption_color"]), hex_to_rgb(settings["text_color"]))
@@ -1793,6 +2181,26 @@ class OpenSkinLab:
             lines.append(f"...and {len(targets) - limit} more")
         return "\n".join(lines)
 
+    def record_recent_apply(self, targets, successes, failures):
+        target_names = []
+        for hwnd in targets[:4]:
+            pid, process, _path = self.window_process_info(hwnd)
+            title = self.window_title_for_hwnd(hwnd)
+            target_names.append(f"{process or 'unknown'}:{title[:40] or hex(hwnd)}")
+        if len(targets) > 4:
+            target_names.append(f"+{len(targets) - 4} more")
+        record = {
+            "time": time.strftime("%H:%M:%S"),
+            "profile": self.profile_var.get().strip() or "Unsaved",
+            "result": f"{successes}/{len(targets)}",
+            "targets": "; ".join(target_names),
+            "failures": len(failures),
+        }
+        self.recent_applies.insert(0, record)
+        self.recent_applies = self.recent_applies[:MAX_RECENT_APPLIES]
+        self.persist_target_data()
+        self.refresh_recent_tree()
+
     def capture_undo_snapshot(self, targets):
         snapshot = []
         for hwnd in targets:
@@ -1814,16 +2222,28 @@ class OpenSkinLab:
                     item["attrs"][attr] = value
             snapshot.append(item)
         self.undo_snapshot = snapshot
+        self.undo_stack.insert(
+            0,
+            {
+                "time": time.strftime("%H:%M:%S"),
+                "profile": self.profile_var.get().strip() or "Unsaved",
+                "targets": len(targets),
+                "snapshot": snapshot,
+            },
+        )
+        self.undo_stack = self.undo_stack[:MAX_UNDO_STACK]
 
     def undo_last_apply(self):
         if not IS_WINDOWS:
             messagebox.showerror(APP_NAME, "OpenSkin undo is only available on Windows.")
             return
-        if not self.undo_snapshot:
+        if not self.undo_stack and not self.undo_snapshot:
             messagebox.showinfo(APP_NAME, "There is no apply operation to undo.")
             return
+        entry = self.undo_stack.pop(0) if self.undo_stack else {"snapshot": self.undo_snapshot}
+        snapshot = entry.get("snapshot", [])
         failures = []
-        for item in self.undo_snapshot:
+        for item in snapshot:
             hwnd = item["hwnd"]
             if not user32.IsWindow(wintypes.HWND(hwnd)):
                 failures.append(f"0x{hwnd:08X}: window no longer exists")
@@ -1835,14 +2255,24 @@ class OpenSkinLab:
                 if not ok:
                     failures.append(f"0x{hwnd:08X}: {message}")
             self.last_apply_cache.pop(hwnd, None)
-        summary = f"Undid last apply for {len(self.undo_snapshot)} window(s)."
+        summary = f"Undid last apply for {len(snapshot)} window(s)."
         if failures:
             summary += f" {len(failures)} restore warning(s); see log."
             for failure in failures[:8]:
                 self.log(f"Undo warning: {failure}")
         self.status_var.set(summary)
         self.log(summary)
-        self.undo_snapshot = []
+        self.undo_snapshot = self.undo_stack[0].get("snapshot", []) if self.undo_stack else []
+
+    def show_undo_history(self):
+        if not self.undo_stack:
+            messagebox.showinfo(APP_NAME, "Undo history is empty.")
+            return
+        lines = [
+            f"{index + 1}. {entry.get('time', '')} - {entry.get('profile', '')} - {entry.get('targets', 0)} target(s)"
+            for index, entry in enumerate(self.undo_stack)
+        ]
+        messagebox.showinfo(APP_NAME, "\n".join(lines))
 
     def apply_to_window(self, hwnd, settings):
         messages = []
@@ -2081,13 +2511,48 @@ class OpenSkinLab:
         self.root.clipboard_append(url)
         self.status_var.set("Copied video link to clipboard.")
 
-    def open_selected_research(self):
+    def refresh_research_list(self):
+        if not hasattr(self, "research_tree"):
+            return
+        for item in self.research_tree.get_children():
+            self.research_tree.delete(item)
+        query = self.research_search_var.get().strip().casefold()
+        count = 0
+        for index, item in enumerate(RESEARCH_LINKS):
+            haystack = f"{item.get('title', '')} {item.get('note', '')} {item.get('url', '')}".casefold()
+            if query and query not in haystack:
+                continue
+            self.research_tree.insert(
+                "",
+                "end",
+                iid=str(index),
+                values=(item.get("title", ""), item.get("note", ""), item.get("url", "")),
+            )
+            count += 1
+        if query:
+            self.status_var.set(f"Showing {count}/{len(RESEARCH_LINKS)} research source(s).")
+
+    def selected_research_url(self):
         selection = self.research_tree.selection()
         if not selection:
+            return None
+        index = int(selection[0])
+        return RESEARCH_LINKS[index]["url"]
+
+    def copy_selected_research_link(self):
+        url = self.selected_research_url()
+        if not url:
             messagebox.showinfo(APP_NAME, "Select a research source first.")
             return
-        index = int(selection[0])
-        url = RESEARCH_LINKS[index]["url"]
+        self.root.clipboard_clear()
+        self.root.clipboard_append(url)
+        self.status_var.set("Copied research link to clipboard.")
+
+    def open_selected_research(self):
+        url = self.selected_research_url()
+        if not url:
+            messagebox.showinfo(APP_NAME, "Select a research source first.")
+            return
         webbrowser.open(url)
         self.log(f"Opened research source: {url}")
 
@@ -2264,6 +2729,18 @@ def format_hresult(result):
     if detail:
         return f"HRESULT 0x{code:08X} ({detail})"
     return f"HRESULT 0x{code:08X}"
+
+
+def compact_title_pattern(title):
+    words = [word for word in str(title).replace("-", " ").split() if len(word) > 2]
+    if not words:
+        return str(title)[:40]
+    return " ".join(words[:4])[:60]
+
+
+def target_rules_equal(first, second):
+    keys = ("process", "class_name", "title_contains", "path")
+    return all(str(first.get(key, "")).casefold() == str(second.get(key, "")).casefold() for key in keys)
 
 
 def settings_signature(settings):

@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "favorites": [],
+  "recents": [
+    {
+      "time": "23:22:13",
+      "profile": "Experiment: Analog warm",
+      "result": "1/1",
+      "targets": "explorer.exe:dfsd",
+      "failures": 0
+    },
+    {
+      "time": "23:22:04",
+      "profile": "Experiment: Analog warm",
+      "result": "1/1",
+      "targets": "chrome.exe:dfsd",
+      "failures": 0
+    }
+  ]
+}
